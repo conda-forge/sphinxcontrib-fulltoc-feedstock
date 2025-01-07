@@ -6,25 +6,27 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: c845d62fc467f3135d4543e9f10e13ef91852683bd1c90fd19d07f9d36757cd9
 
 build:
   noarch: python
-  number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  number: 1
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
     - pbr
     - setuptools
   run:
-    - python
+    - python >={{ python_min }}
     - sphinx
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - sphinxcontrib.fulltoc
 
